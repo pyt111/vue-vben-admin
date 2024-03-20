@@ -30,6 +30,54 @@ export default defineApplicationConfig({
           ws: true,
           rewrite: (path) => path.replace(new RegExp(`^/upload`), ''),
         },
+        '/api': {
+          target: 'http://172.30.81.179',
+          changeOrigin: true,
+          ws: true,
+          // rewrite: (path) => path.replace(new RegExp(`^/api`), ''),
+          // only https
+          // secure: false
+        },
+        '/dipc': {
+          target: 'http://172.30.81.179',
+          changeOrigin: true,
+          ws: true,
+          // rewrite: (path) => path.replace(new RegExp(`^/dipc`), ''),
+          // only https
+          // secure: false
+        },
+        '/sys': {
+          target: 'http://172.30.81.179',
+          changeOrigin: true,
+          ws: true,
+          // rewrite: (path) => path.replace(new RegExp(`^/sys`), ''),
+          // only https
+          // secure: false
+        },
+        '/sqlen': {
+          target: 'http://172.30.81.179',
+          changeOrigin: true,
+          ws: true,
+          // rewrite: (path) => path.replace(new RegExp(`^/sqlen`), ''),
+          // only https
+          // secure: false
+        },
+        '/datashell': {
+          target: 'http://172.30.81.179',
+          changeOrigin: true,
+          ws: true,
+          // rewrite: (path) => path.replace(new RegExp(`^/datashell`), ''),
+          // only https
+          // secure: false
+        },
+        '/dp/azkaban': {
+          target: 'http://172.30.81.179',
+          changeOrigin: true,
+          ws: true,
+          // rewrite: (path) => path.replace(new RegExp(`^/dp/azkaban`), ''),
+          // only https
+          // secure: false
+        },
       },
       open: true, // 项目启动后，自动打开
       warmup: {

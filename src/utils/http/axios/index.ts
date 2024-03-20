@@ -51,10 +51,12 @@ const transform: AxiosTransform = {
       throw new Error(t('sys.api.apiRequestFailed'));
     }
     //  这里 code，result，message为 后台统一的字段，需要在 types.ts内修改为项目自己的接口返回格式
-    const { code, result, message } = data;
+    const { code, data: result, msg: message } = data;
 
+    console.log('data------ >--->', data);
     // 这里逻辑可以根据项目进行修改
     const hasSuccess = data && Reflect.has(data, 'code') && code === ResultEnum.SUCCESS;
+    console.log('hasSuccess >--->', hasSuccess);
     if (hasSuccess) {
       let successMsg = message;
 
@@ -64,7 +66,7 @@ const transform: AxiosTransform = {
 
       if (options.successMessageMode === 'modal') {
         createSuccessModal({ title: t('sys.api.successTip'), content: successMsg });
-      } else if (options.successMessageMode === 'message') {
+      } else if (options.successMessageMode === 'msg') {
         createMessage.success(successMsg);
       }
       return result;
@@ -90,7 +92,7 @@ const transform: AxiosTransform = {
     // errorMessageMode='none' 一般是调用时明确表示不希望自动弹出错误提示
     if (options.errorMessageMode === 'modal') {
       createErrorModal({ title: t('sys.api.errorTip'), content: timeoutMsg });
-    } else if (options.errorMessageMode === 'message') {
+    } else if (options.errorMessageMode === 'msg') {
       createMessage.error(timeoutMsg);
     }
 
@@ -161,6 +163,11 @@ const transform: AxiosTransform = {
       (config as Recordable).headers.Authorization = options.authenticationScheme
         ? `${options.authenticationScheme} ${token}`
         : token;
+      console.log('token-------2 >--->', token);
+
+      // config.headers['data_pivot_project_id'] = store.getters.projectId
+      config.headers['env'] = 'dev';
+      config.headers['data_pivot_token'] = token;
     }
     return config;
   },
@@ -259,7 +266,7 @@ function createAxios(opt?: Partial<CreateAxiosOptions>) {
           // 接口拼接地址
           urlPrefix: urlPrefix,
           //  是否加入时间戳
-          joinTime: true,
+          joinTime: false,
           // 忽略重复请求
           ignoreCancelToken: true,
           // 是否携带token
@@ -276,7 +283,16 @@ function createAxios(opt?: Partial<CreateAxiosOptions>) {
   );
 }
 export const defHttp = createAxios();
-
+export const dipcHttp = createAxios({
+  requestOptions: {
+    apiUrl: '/',
+  },
+});
+export const sysHttp = createAxios({
+  requestOptions: {
+    apiUrl: '/sys/some',
+  },
+});
 // other api url
 // export const otherHttp = createAxios({
 //   requestOptions: {
