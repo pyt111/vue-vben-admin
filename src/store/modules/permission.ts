@@ -225,7 +225,7 @@ export const usePermissionStore = defineStore({
             // await this.changePermissionCode();
             // routeList = (await getMenuList()) as AppRouteRecordRaw[];
             routeList = userStore.userInfo?.vos as AppRouteRecordRaw[];
-            console.log('routeList >--->', routeList);
+            console.log('routeList-----1 >--->', routeList);
           } catch (error) {
             console.error(error);
           }
